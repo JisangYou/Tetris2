@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -14,7 +15,7 @@ import android.widget.Toast;
  * 동적으로 액티비티안에 테트리스 게임이 진행되는 뷰를 그려서 처리.
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements scoreListener {
     // 0. 게임 세팅
     private static Setting setting;        // 설정값
     Stage stage;
@@ -22,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     TextView txtScore, txtCountDown;
     CountDownTimer countDown = null;
     boolean check = false;
-    public static String score 
 
 
     @Override
@@ -32,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
         // 0. 게임 세팅
         setGame();
         // 1. 그림판을 준비
+        new Board(this);
         initView();
+
 
         timer();
 
@@ -49,19 +51,22 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         container = (FrameLayout) findViewById(R.id.container);
         txtScore = (TextView) findViewById(R.id.txtScore);
+        txtScore.setText("0");
 
         txtCountDown = (TextView) findViewById(R.id.txtCountDown);
         stage = new Stage(this, setting);
         // 뭔가 그릴것들을 다 준비해놔야 된다.
         stage.init();
         container.addView(stage);
+
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         // 앱이 화면에 보이면 블럭을 동작
-        txtScore.setText(score);
+
         stage.runBlock();
     }
 
@@ -133,6 +138,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void getScore(int num) {
+//        txtScore.setText(num + "");
+        Log.e("check3", "num == " + num);
+    }
 }
 
 

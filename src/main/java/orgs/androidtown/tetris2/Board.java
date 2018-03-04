@@ -5,11 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Created by Jisang on 2017-09-29.
  */
@@ -19,6 +14,8 @@ import java.util.Map;
  */
 
 public class Board implements BlockParent {
+
+    int score;
 
     // 크기단위
     float unit;
@@ -64,7 +61,6 @@ public class Board implements BlockParent {
                     {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9},
             };
 
-    Score score = null;
 
     public Board(float x, float y, int columns, int rows, float unit) {
         this.unit = unit;
@@ -102,6 +98,7 @@ public class Board implements BlockParent {
         // 가지고 있는 유닛 그리기
         block.onDraw(canvas);
     }
+
 
     @Override
     public float getX() {
@@ -198,6 +195,11 @@ public class Board implements BlockParent {
     // map 을 가로축으로 검사해서 셀이 꽉차 있으면 해당 줄을 지우고
     // 지워진 줄만큼 아래로 이동시킨다.
 
+    scoreListener scoreListener;
+
+    public Board(scoreListener Listener) {
+        scoreListener = Listener;
+    }
 
     public void lineCheckAndRemove() {
 
@@ -205,7 +207,8 @@ public class Board implements BlockParent {
         int check = 0;
         int max = 0;
         int count = 0;
-        int pScore = 0; // 초기화
+        score = 10;
+
         for (int i = map.length - 2; i >= 0; i--) {
             for (int j = 1; j < map[0].length - 1; j++)
                 if (map[i][j] > 0)
@@ -218,7 +221,8 @@ public class Board implements BlockParent {
                     max = i;
                 count++;
 
-                MainActivity.score = "20";
+//                scoreListener.getScore(10);
+                Log.e("check2", "check = " + score);
 
             }
         }
@@ -228,8 +232,6 @@ public class Board implements BlockParent {
                     map[i][j] = map[i - count][j];
                 else
                     map[i][j] = 0;
-
-
 
 
     }
