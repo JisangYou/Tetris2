@@ -1,7 +1,7 @@
 package orgs.androidtown.tetris2;
 
 /**
- * Created by Jisang on 2017-09-29.
+ * 테트리스가 실행되는 모델 클래스
  */
 
 public class Setting {

@@ -3,6 +3,12 @@ package orgs.androidtown.tetris2;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jisang on 2017-09-29.
@@ -12,7 +18,7 @@ import android.graphics.Paint;
  * 테트리스 게임이 진행되는 영역 클래스
  */
 
-public class Board implements Block.Parent{
+public class Board implements BlockParent {
 
     // 크기단위
     float unit;
@@ -29,36 +35,38 @@ public class Board implements Block.Parent{
     // 페인트
     Paint paint;
 
-    int colors[] ={
+    int colors[] = {
             Color.RED, Color.BLACK, Color.GREEN
             , Color.MAGENTA, Color.CYAN, Color.BLUE
-            , Color.GRAY , 0
+            , Color.GRAY, 0
             , Color.DKGRAY
     };
 
     int map[][] =
             {
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,0,0,0,0,0,0,0,0,0,9},
-                    {9,9,9,9,9,9,9,9,9,9,9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9},
+                    {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9},
             };
 
-    public Board(float x, float y, int columns, int rows, float unit){
+    Score score = null;
+
+    public Board(float x, float y, int columns, int rows, float unit) {
         this.unit = unit;
         this.x = x;
         this.y = y;
@@ -66,7 +74,7 @@ public class Board implements Block.Parent{
         this.rows = rows;
 
         this.paint = new Paint();
-        paint.setColor(Color.rgb(100,100,255));
+        paint.setColor(Color.rgb(100, 100, 255));
     }
 
     public void addBlock(Block block) {
@@ -75,13 +83,13 @@ public class Board implements Block.Parent{
         block.setParent(this);
     }
 
-    public void onDraw(Canvas canvas){
+    public void onDraw(Canvas canvas) {
         // 자기 자신 그리기
-        for(int v=0; v<map.length ; v++){
-            for(int h=0 ; h<map[0].length ; h++){
+        for (int v = 0; v < map.length; v++) {
+            for (int h = 0; h < map[0].length; h++) {
                 int cellValue = map[v][h];
-                if(cellValue > 0){
-                    paint.setColor(colors[cellValue-1]);
+                if (cellValue > 0) {
+                    paint.setColor(colors[cellValue - 1]);
                     canvas.drawRect(
                             ((x + h) * unit),
                             ((y + v) * unit),
@@ -106,74 +114,78 @@ public class Board implements Block.Parent{
     }
 
     public void up() {
-        if(checkCollision("r",0)) {
+        if (checkCollision("r", 0)) {
             block.rotate();
         }
     }
+
     // 다운키를 눌렀는데 충돌이면
     // 현재 블럭을 map으로 이전하고
     // 새로운 블럭을 가져와야 된다.
     public boolean down() {
-        if(checkCollision("y", 1) ) {
+        if (checkCollision("y", 1)) {
             block.y += 1;
             return true;
         }
         return false;
     }
+
     // 현재 블럭의 셀 값을 추출해서
     // map 에 입력해준다.
-    public void addBlockToMap(){
-        for(int v=0 ; v<4 ; v++){
-            for(int h=0 ; h<4 ; h++){
+    public void addBlockToMap() {
+        for (int v = 0; v < 4; v++) {
+            for (int h = 0; h < 4; h++) {
                 int blockCell = block.current[v][h];  // 블럭의 셀 값
-                if(blockCell > 0){
-                    map[(int)block.y +v][(int)block.x + h] = blockCell;
+                if (blockCell > 0) {
+                    map[(int) block.y + v][(int) block.x + h] = blockCell;
                 }
             }
         }
     }
+
     public void left() {
-        if(checkCollision("x", -1) ) {
+        if (checkCollision("x", -1)) {
             block.x -= 1;
         }
     }
+
     public void right() {
-        if(checkCollision("x", 1) ) {
+        if (checkCollision("x", 1)) {
             block.x += 1;
         }
     }
 
     // 블럭 충돌검사
-    private boolean checkCollision(String command, int value){
+    private boolean checkCollision(String command, int value) {
         boolean result = true;
 
         // 현재 map 배열과
         // 안에 들어있는 블럭의 배열을 비교
         int checkBlock[][] = block.current;
-        if("r".equals(command)){
+        if ("r".equals(command)) {
             // 회전 에서는 현재 블럭이 아닌 다음 블럭을 가져와야 하고
             // 충돌시에는 실제 회전이 일어나면 안되기 때문에
             // 임시로 checkBlock에 저장해서 사용한다.
             checkBlock = block.getNext();
         }
 
-        for(int v=0 ; v<4 ; v++){
-            for(int h=0 ; h<4 ; h++){
+        for (int v = 0; v < 4; v++) {
+            for (int h = 0; h < 4; h++) {
                 int blockCell = checkBlock[v][h];  // 블럭의 셀 값
 
-                int tempX = (int)block.x + h;
-                if("x".equals(command)) tempX += value;
-                int tempY = (int)block.y + v;
-                if("y".equals(command)) tempY += value;
+                int tempX = (int) block.x + h;
+                if ("x".equals(command)) tempX += value;
+                int tempY = (int) block.y + v;
+                if ("y".equals(command)) tempY += value;
 
                 // 체크하고자 하는 범위가 map의 크기를 넘어가면 continue
-                if(tempY >= map.length || tempX >= map[0].length
-                        || tempY < 0 || tempX < 0){
+                if (tempY >= map.length || tempX >= map[0].length
+                        || tempY < 0 || tempX < 0) {
                     continue;
                 }
 
-                int mapCell   = map[ tempY][ tempX]; // map의 셀 값
-                if(blockCell > 0 && mapCell >0){
+                int mapCell = map[tempY][tempX]; // map의 셀 값
+                if (blockCell > 0 && mapCell > 0) {
                     return false;
                 }
             }
@@ -182,9 +194,47 @@ public class Board implements Block.Parent{
 
         return result;
     }
+
     // map 을 가로축으로 검사해서 셀이 꽉차 있으면 해당 줄을 지우고
     // 지워진 줄만큼 아래로 이동시킨다.
+
+
     public void lineCheckAndRemove() {
 
+
+        int check = 0;
+        int max = 0;
+        int count = 0;
+        int pScore = 0; // 초기화
+        for (int i = map.length - 2; i >= 0; i--) {
+            for (int j = 1; j < map[0].length - 1; j++)
+                if (map[i][j] > 0)
+                    check++;
+
+            if (check == 9) {
+                for (int j = 1; j < map[0].length - 1; j++)
+                    map[i][j] = 0;
+                if (max < i)
+                    max = i;
+                count++;
+
+                MainActivity.score = "20";
+
+            }
+        }
+        for (int i = max; i >= 0; i--) // 데드블럭이동
+            for (int j = 1; j < map[0].length - 1; j++)
+                if (i - 1 > 0)
+                    map[i][j] = map[i - count][j];
+                else
+                    map[i][j] = 0;
+
+
+
+
     }
+
+
 }
+
+

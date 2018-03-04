@@ -6,7 +6,7 @@ import android.graphics.Canvas;
  * Created by Jisang on 2017-09-29.
  */
 
-public class Preview implements Block.Parent{
+public class Preview implements BlockParent {
     // 크기단위
     float unit;
     // 좌표
@@ -27,11 +27,17 @@ public class Preview implements Block.Parent{
         this.rows = rows;
     }
 
+    /**
+     * @param block
+     * randome 생성된 블록이 preview와 stage에 동일한 것 보여주는 함수
+     */
     public void addBlock(Block block) {
         this.block = block;
         block.setParent(this);
     }
-
+    /**
+     * stage에 preview에서 생성된 블록을 전달해주는 역할의 함수
+     */
     public Block popBlock() {
         return block;
     }

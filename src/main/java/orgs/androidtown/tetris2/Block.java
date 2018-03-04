@@ -14,7 +14,7 @@ import java.util.Random;
 public class Block {
     float x, y, unit;
     Paint paint;
-    Parent parent = null;
+    BlockParent blockParent = null;
     int number = 0;
     int rotation = 0;
     int current[][];
@@ -166,7 +166,7 @@ public class Block {
         Random random = new Random();
         number = random.nextInt(7);
         rotation = 0;
-        Log.d("Block", "Number=" + number + ", Rotation=" + rotation);
+//        Log.d("Block", "Number=" + number + ", Rotation=" + rotation);
     }
 
     // 나를 그리는 함수
@@ -181,10 +181,10 @@ public class Block {
                 // 배열의 값이 0보다 큰 곳만 그려준다.
                 if (current[v][h] > 0) {
                     canvas.drawRect(
-                            parent.getX() + ((x + h) * unit),
-                            parent.getY() + ((y + v) * unit),
-                            parent.getX() + ((x + h + 1) * unit),
-                            parent.getY() + ((y + v + 1) * unit),
+                            blockParent.getX() + ((x + h) * unit),
+                            blockParent.getY() + ((y + v) * unit),
+                            blockParent.getX() + ((x + h + 1) * unit),
+                            blockParent.getY() + ((y + v + 1) * unit),
                             paint);
                 }
             }
@@ -192,25 +192,15 @@ public class Block {
 
     }
 
-    // 이동함수
-    public void up() {
-        y = y - unit;
-    }
 
-    public void down() {
-        y = y + unit;
-    }
 
-    public void right() {
-        x = x + unit;
-    }
-
-    public void left() {
-        x = x - unit;
-    }
-
-    public void setParent(Parent parent) {
-        this.parent = parent;
+    /**
+     *
+     * @param blockParent
+     * 인터페이스를 통해 Block의 변화를 Board와 Preview에 알려주는 메소드
+     */
+    public void setParent(BlockParent blockParent) {
+        this.blockParent = blockParent;
     }
 
     public void rotate() {
@@ -223,9 +213,58 @@ public class Block {
         return next;
     }
 
-    public interface Parent {
-        float getX();
 
-        float getY();
-    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 이동함수
+//    public void up() {
+//        y = y - unit;
+//    }
+//
+//    public void down() {
+//        y = y + unit;
+//    }
+//
+//    public void right() {
+//        x = x + unit;
+//    }
+//
+//    public void left() {
+//        x = x - unit;
+//    }
+
+//    public interface Parent {
+//        float getX();
+//
+//        float getY();
+//    }

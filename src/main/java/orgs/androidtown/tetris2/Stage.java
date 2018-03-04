@@ -29,6 +29,9 @@ public class Stage extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        /**
+         * 자기 자신을 화면에 동적으로 그려준다.
+         */
         preview.onDraw(canvas);
         board.onDraw(canvas);
     }
@@ -53,12 +56,12 @@ public class Stage extends View {
     // 2. 블럭을 preview 에 담는 함수
     public void addBlockToPreview(){
         Block block = newBlock();
-        preview.addBlock(block);
+        preview.addBlock(block); // Block의 변화를 감지하여, preview에 setting
     }
     // 3. 블럭을 preview 에서 Board로 옴기는 함수
     public void addBlockToBoardFromPreview(){
         Block block = preview.popBlock();
-        board.addBlock(block);
+        board.addBlock(block); // Block의 변화를 감지하여, board에 setting
     }
 
     // 키 패드 동작
