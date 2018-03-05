@@ -15,7 +15,7 @@ import android.widget.Toast;
  * 동적으로 액티비티안에 테트리스 게임이 진행되는 뷰를 그려서 처리.
  */
 
-public class MainActivity extends AppCompatActivity implements scoreListener {
+public class MainActivity extends AppCompatActivity /*implements scoreListener*/ {
     // 0. 게임 세팅
     private static Setting setting;        // 설정값
     Stage stage;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements scoreListener {
         // 0. 게임 세팅
         setGame();
         // 1. 그림판을 준비
-        new Board(this);
+//        new Board(this);
         initView();
 
 
@@ -138,11 +138,11 @@ public class MainActivity extends AppCompatActivity implements scoreListener {
     }
 
 
-    @Override
-    public void getScore(int num) {
-//        txtScore.setText(num + "");
-        Log.e("check3", "num == " + num);
-    }
+//    @Override
+//    public void getScore(int num) {
+////        txtScore.setText(num + "");
+//        Log.e("check3", "num == " + num);
+//    }
 }
 
 

@@ -1,2 +1,26 @@
-![tetris1](https://user-images.githubusercontent.com/31605792/36948295-fa1b6d52-201b-11e8-892e-cacd8879c534.gif)
-![tetris2](https://user-images.githubusercontent.com/31605792/36948296-fd468dea-201b-11e8-91a7-939e6a3b9dcd.gif)
+# Tetris
+
+## 1. __설명__
+
+- 고전 게임인 테트리스를 만들어본 예제 프로젝트
+
+## 2. __Gif__
+
+- ![tetris1](https://user-images.githubusercontent.com/31605792/36948295-fa1b6d52-201b-11e8-892e-cacd8879c534.gif)
+
+- ![tetris2](https://user-images.githubusercontent.com/31605792/36948296-fd468dea-201b-11e8-91a7-939e6a3b9dcd.gif)
+
+## 3. __기능 설명__
+
+- 블럭생성, 회전, 삭제 기능
+- 타임 카운터
+
+## 4. __Retrospect & TODO__
+
+- 전체적으로 어떻게 구성해야하는지 부터 난해했던 예제 프로젝트
+- 테트리스와 같은 '게임' 앱 예제 프로젝트를 학습하면서, '비즈니스'앱과는 다른 관점에서 접근해야 한다고 생각했다.
+- 알고리즘, 자료구조, 언어 API에 대해 어느 부분이 부족하고 보완이 필요한지 점검할 수 있었다. 
+- 코드 분석을 통해 원하는 기능을 보완하는 과정이 필요하다.(추후 업데이트예정)
+
+
+

@@ -195,11 +195,11 @@ public class Board implements BlockParent {
     // map 을 가로축으로 검사해서 셀이 꽉차 있으면 해당 줄을 지우고
     // 지워진 줄만큼 아래로 이동시킨다.
 
-    scoreListener scoreListener;
-
-    public Board(scoreListener Listener) {
-        scoreListener = Listener;
-    }
+//    scoreListener scoreListener;
+//
+//    public Board(scoreListener Listener) {
+//        scoreListener = Listener;
+//    }
 
     public void lineCheckAndRemove() {
 
